@@ -10,14 +10,16 @@ import java.util.List;
 
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, Long> {
-    //Usando JPQL
-    @Query("SELECT p FROM Producto p Where p.nombre=nombre")
-    List<Producto>buscarPorNombre(@Param("Nombre")String nombre);
 
-    //Usando SQL nativo
-    @Query(value = "SELECT * FROM producto Where marca= :marca",nativeQuery = true)
-    Producto buscarPorMarca(@Param("marca")String marca);
+    // Usando JPQL
+    @Query("SELECT p FROM Producto p WHERE p.nombre = :nombre")
+    List<Producto> buscarPorNombre(@Param("nombre") String nombre);
 
-    List<Producto>buscarPorNombreyMarca(String nombre,String marca);
+    // Usando SQL nativo
+    @Query(value = "SELECT * FROM producto WHERE marca = :marca", nativeQuery = true)
+    List<Producto> buscarPorMarca(@Param("marca") String marca);
 
+    // Consulta derivada
+    List<Producto> findByNombreAndMarca(String nombre, String marca);
 }
+

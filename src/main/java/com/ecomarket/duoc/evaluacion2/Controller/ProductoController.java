@@ -12,6 +12,17 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping
-public class PacienteController {
+@RequestMapping("/api/v1/productos")
+public class ProductoController {
+    @Autowired
+    private ProductoService productoService;
+
+    @GetMapping
+    public ResponseEntity<List<Producto>>listar(){
+        List<Producto> productos=productoService.findAll();
+        if(productos.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(productos);
+    }
 }
