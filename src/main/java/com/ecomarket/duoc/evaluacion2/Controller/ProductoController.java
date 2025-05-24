@@ -2,7 +2,6 @@ package com.ecomarket.duoc.evaluacion2.Controller;
 
 import com.ecomarket.duoc.evaluacion2.model.Producto;
 import com.ecomarket.duoc.evaluacion2.service.ProductoService;
-import jakarta.persistence.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +32,7 @@ public class ProductoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Producto> buscar(@PathVariable Long id) {
+    public ResponseEntity<Producto> buscar(@PathVariable Integer id) {
         try {
             Producto producto = productoService.findById(id);
             return ResponseEntity.ok(producto);
@@ -41,18 +40,18 @@ public class ProductoController {
             return ResponseEntity.notFound().build();
         }
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<Producto> actualizar(@PathVariable Integer id, @RequestBody Producto producto) {
         try {
-            Producto prod = productoService.findById(id);
-            prod.setId(id);
-            prod.setNombre(producto.getNombre());
-            prod.setValor(producto.getValor());
-            prod.setMarca(producto.getMarca());
-            prod.setCantidad(producto.getCantidad());
+            Producto prodExistente = productoService.findById(id);
+            prodExistente.setNombre(producto.getNombre());
+            prodExistente.setMarca(producto.getMarca());
+            prodExistente.setValor(producto.getValor());
+            prodExistente.setCantidad(producto.getCantidad());
 
-            productoService.save(prod);
-            return ResponseEntity.ok(prod);
+            productoService.save(prodExistente);
+            return ResponseEntity.ok(prodExistente);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
